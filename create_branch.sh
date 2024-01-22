@@ -1,21 +1,28 @@
-@echo off
-SET /P branchType="Enter the branch type (feature/release/hotfix): "
-SET /P branchName="Enter the branch name: "
+#!/bin/bash
 
-IF "%branchType%"=="feature" (
-    git checkout develop
-    git checkout -b "feature/%branchName%"
-    echo Feature branch created: feature/%branchName%
-) ELSE IF "%branchType%"=="release" (
-    git checkout develop
-    git checkout -b "release/%branchName%"
-    echo Release branch created: release/%branchName%
-) ELSE IF "%branchType%"=="hotfix" (
-    git checkout master
-    git checkout -b "hotfix/%branchName%"
-    echo Hotfix branch created: hotfix/%branchName%
-) ELSE (
-    echo Invalid branch type.
-)
+echo "Enter the branch type (feature/release/hotfix):"
+read branchType
 
-pause
+echo "Enter the branch name:"
+read branchName
+
+case $branchType in
+    feature)
+        git checkout develop
+        git checkout -b "feature/$branchName"
+        echo "Feature branch created: feature/$branchName"
+        ;;
+    release)
+        git checkout develop
+        git checkout -b "release/$branchName"
+        echo "Release branch created: release/$branchName"
+        ;;
+    hotfix)
+        git checkout master
+        git checkout -b "hotfix/$branchName"
+        echo "Hotfix branch created: hotfix/$branchName"
+        ;;
+    *)
+        echo "Invalid branch type."
+        ;;
+esac
